@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library Page</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <link rel="stylesheet" href="style.css">
+
+
+</head>
+<style>
+    /* Flexbox to keep the cards in one horizontal row */
+    .carousel-inner {
+        display: flex;
+        justify-content: flex-start;
+        gap: 15px;
+        overflow-x: auto;
+        scroll-behavior: smooth;
+        padding: 15px;
+    }
+
+    .carousel-inner::-webkit-scrollbar {
+        display: none;
+        /* Hide scrollbars */
+    }
+
+    /* Ensure the cards remain inline */
+    .card {
+        min-width: 200px;
+        flex: 0 0 auto;
+        text-align: center;
+        /* Center text inside the card */
+        background-color: rgb(235, 203, 162)
+    }
+
+    .card img {
+        height: 200px;
+        object-fit: cover;
+    }
+
+    /* Adjusted width for the button */
+    .card .btn {
+        display: block;
+        margin: 0 auto;
+        /* Center the button horizontally */
+        width: auto;
+        /* Reduced width of the button */
+    }
+
+    /* Hide the buttons while keeping them usable */
+    .carousel-control-prev,
+    .carousel-control-next {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background-color: rgba(0, 0, 0, 0.5);
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .carousel-control-prev {
+        left: 10px;
+    }
+
+    .carousel-control-next {
+        right: 10px;
+    }
+
+    .carousel-control-prev-icon,
+    .carousel-control-next-icon {
+        width: 20px;
+        height: 20px;
+    }
+
+    /* Container to ensure the buttons are within bounds */
+    .carousel {
+        position: relative;
+        max-width: 100%;
+    }
+
+    button.nav-link {
+        background: none;
+        color: blue;
+        /* or the color of your links */
+        border: none;
+        padding: 0;
+        text-decoration: underline;
+        cursor: pointer;
+        margin-top: 7px;
+    }
+</style>
+
+<body>
+
+
+    <nav class="navbar navbar-expand-lg navbar-light navbar-custom">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="index.html">
+                <img src="https://openlibrary.org/static/images/openlibrary-logo-tighter.svg" width="150"
+                    alt="Library Logo">
+            </a>
+            <div class="navbar-collapse">
+                <form id="searchForm" class="search-form" onsubmit="search(event)">
+                    <select id="searchCategory" class="form-select" aria-label="Search category">
+                        <option value="name">Name</option>
+                        <option value="authors">Authors</option>
+                        <option value="category">Category</option>
+                        <option value="year_published">Year of publish</option>
+                    </select>
+                    <input id="searchKeyword" class="form-control me-2" type="search"
+                        placeholder="Search books, authors..." aria-label="Search">
+                    <button id="search" class="btn btn-outline-dark" type="submit">Search</button>
+                </form>
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item">
+                        <a id="myBooksLink" class="nav-link active" href="profile.html">My Books</a>
+                    </li>
+                </ul>
+            </div>
+            <ul class="navbar-nav ms-3">
+                <li class="nav-item">
+                    <button id="login" class="nav-link">Log In</button>
+                </li>
+                <li class="nav-item">
+                    <a id="signUp" class="btn btn-primary" href="register.html">Sign Up</a>
+                </li>
+                <li class="nav-item">
+
+                    <span class="menu-icon" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
+                        aria-controls="offcanvasNavbar">
+                        &#9776;
+                    </span>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Menu</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a id="myBooksLink2" class="nav-link active" href="profile.html">My Books</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="admin.html">Admin</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="about.html">Contact Us</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+
+    <div id="display" class="content-container" style="padding: 20px;">
+        <h1 style="text-align: center; font-weight: bold; margin-bottom: 40px;">Admin Dashboard</h1>
+
+        <div class="accordion accordion-flush" id="adminAccordion">
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingOne">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#flush-collapseUser" aria-expanded="false" aria-controls="flush-collapseUser">
+                        Update User
+                    </button>
+                </h2>
+                <div id="flush-collapseUser" class="accordion-collapse collapse" aria-labelledby="headingOne"
+                    data-bs-parent="#adminAccordion">
+                    <div class="accordion-body">
+                        <h2 style="font-size: 20px; font-weight: bold; margin-bottom: 20px;">Update User</h2>
+
+                        <!-- Select User by Email -->
+                        <div style="margin-bottom: 15px;">
+                            <label for="select_user_email"
+                                style="display: block; font-weight: bold; margin-bottom: 5px;">Select
+                                User by Email</label>
+                            <select id="select_user_email"
+                                style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+                                <!-- This will be dynamically populated with user emails -->
+                            </select>
+                        </div>
+
+                        <!-- Hidden User ID Field (read-only) -->
+                        <div style="margin-bottom: 15px;">
+                            <label for="user_id" style="display: block; font-weight: bold; margin-bottom: 5px;">User
+                                ID</label>
+                            <input type="text" id="user_id"
+                                style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;"
+                                readonly>
+                        </div>
+
+                        <!-- First Name Field -->
+                        <div style="margin-bottom: 15px;">
+                            <label for="first_name" style="display: block; font-weight: bold; margin-bottom: 5px;">First
+                                Name</label>
+                            <input type="text" id="first_name"
+                                style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;"
+                                placeholder="Enter user's first name">
+                        </div>
+
+                        <!-- Last Name Field -->
+                        <div style="margin-bottom: 15px;">
+                            <label for="last_name" style="display: block; font-weight: bold; margin-bottom: 5px;">Last
+                                Name</label>
+                            <input type="text" id="last_name"
+                                style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;"
+                                placeholder="Enter user's last name">
+                        </div>
+
+                        <!-- Gender Field -->
+                        <div style="margin-bottom: 15px;">
+                            <label for="gender"
+                                style="display: block; font-weight: bold; margin-bottom: 5px;">Gender</label>
+                            <select id="gender"
+                                style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+
+                        <!-- Age Field -->
+                        <div style="margin-bottom: 15px;">
+                            <label for="age" style="display: block; font-weight: bold; margin-bottom: 5px;">Age</label>
+                            <input type="number" id="age"
+                                style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;"
+                                placeholder="Enter user's age">
+                        </div>
+
+                        <!-- City Field -->
+                        <div style="margin-bottom: 15px;">
+                            <label for="city"
+                                style="display: block; font-weight: bold; margin-bottom: 5px;">City</label>
+                            <input type="text" id="city"
+                                style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;"
+                                placeholder="Enter user's city">
+                        </div>
+
+                        <!-- Address Field -->
+                        <div style="margin-bottom: 15px;">
+                            <label for="address"
+                                style="display: block; font-weight: bold; margin-bottom: 5px;">Address</label>
+                            <input type="text" id="address"
+                                style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;"
+                                placeholder="Enter user's address">
+                        </div>
+
+                        <!-- Phone Number Field -->
+                        <div style="margin-bottom: 15px;">
+                            <label for="phone_number"
+                                style="display: block; font-weight: bold; margin-bottom: 5px;">Phone Number</label>
+                            <input type="tel" id="phone_number"
+                                style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;"
+                                placeholder="Enter user's phone number">
+                        </div>
+
+                        <!-- User Status Field -->
+                        <div style="margin-bottom: 15px;">
+                            <label for="user_status"
+                                style="display: block; font-weight: bold; margin-bottom: 5px;">Status</label>
+                            <select id="user_status"
+                                style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+                                <option value="Active">Active</option>
+                                <option value="Inactive">Inactive</option>
+                            </select>
+                        </div>
+
+                        <button type="button" id="updateUserBtn"
+                            style="padding: 10px 20px; background-color: blue; color: white; border: none; border-radius: 5px;">Update
+                            User</button>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Update Book Section -->
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingTwo">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#flush-collapseBook" aria-expanded="false" aria-controls="flush-collapseBook">
+                        Update Book
+                    </button>
+                </h2>
+                <div id="flush-collapseBook" class="accordion-collapse collapse" aria-labelledby="headingTwo"
+                    data-bs-parent="#adminAccordion">
+                    <div class="accordion-body">
+                        <h2 style="font-size: 20px; font-weight: bold; margin-bottom: 20px;">Update Book</h2>
+
+                        <!-- Select Book by Name -->
+                        <div style="margin-bottom: 15px;">
+                            <label for="select_book_name"
+                                style="display: block; font-weight: bold; margin-bottom: 5px;">Select Book by
+                                Name</label>
+                            <select id="select_book_name"
+                                style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+                                <!-- Dynamically populated with book names -->
+                            </select>
+                        </div>
+
+                        <div style="margin-bottom: 15px;">
+                            <label for="book_id" style="display: block; font-weight: bold; margin-bottom: 5px;">Book
+                                ID</label>
+                            <input type="text" id="book_id"
+                                style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;" readonly
+                                placeholder="Book ID (Non-editable)">
+                        </div>
+
+                        <!-- Book Name Field -->
+                        <div style="margin-bottom: 15px;">
+                            <label for="book_name" style="display: block; font-weight: bold; margin-bottom: 5px;">Book
+                                Name</label>
+                            <input type="text" id="book_name"
+                                style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;"
+                                placeholder="Enter book name">
+                        </div>
+
+
+
+                        <!-- Book Author Field -->
+                        <div style="margin-bottom: 15px;">
+                            <label for="book_author"
+                                style="display: block; font-weight: bold; margin-bottom: 5px;">Author</label>
+                            <input type="text" id="book_author"
+                                style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;"
+                                placeholder="Enter book author">
+                        </div>
+
+                        <!-- Book Category Field -->
+                        <div style="margin-bottom: 15px;">
+                            <label for="book_category"
+                                style="display: block; font-weight: bold; margin-bottom: 5px;">Category</label>
+                            <input type="text" id="book_category"
+                                style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;"
+                                placeholder="Enter book category">
+                        </div>
+
+                        <!-- Year Published Field -->
+                        <div style="margin-bottom: 15px;">
+                            <label for="book_year_published"
+                                style="display: block; font-weight: bold; margin-bottom: 5px;">Year Published</label>
+                            <input type="number" id="book_year_published"
+                                style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;"
+                                placeholder="Enter year of publication">
+                        </div>
+
+                        <!-- Summary Field -->
+                        <div style="margin-bottom: 15px;">
+                            <label for="book_summary"
+                                style="display: block; font-weight: bold; margin-bottom: 5px;">Summary</label>
+                            <textarea id="book_summary"
+                                style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;"
+                                placeholder="Enter book summary"></textarea>
+                        </div>
+
+                        <!-- Type of Borrow Field -->
+                        <div style="margin-bottom: 15px;">
+                            <label for="book_type_borrow"
+                                style="display: block; font-weight: bold; margin-bottom: 5px;">Type of Borrow</label>
+                            <input type="number" id="book_type_borrow"
+                                style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;"
+                                placeholder="Enter borrow type">
+                        </div>
+
+                        <div style="margin-bottom: 15px;">
+                            <label for="book_status"
+                                style="display: block; font-weight: bold; margin-bottom: 5px;">Status</label>
+                            <select id="book_status"
+                                style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+                                <option value="Borrow">Available</option>
+                                <!-- value should match the value in the database -->
+                                <option value="Unavailable">Unavailable</option>
+                                <!-- value should match the value in the database -->
+                            </select>
+                        </div>
+
+                        <!-- Image URL Field -->
+                        <div style="margin-bottom: 15px;">
+                            <label for="book_img" style="display: block; font-weight: bold; margin-bottom: 5px;">Image
+                                URL</label>
+                            <input type="text" id="book_img"
+                                style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;"
+                                placeholder="Enter image URL">
+                        </div>
+
+                        <button id="updateBookBtn" type="button"
+                            style="padding: 10px 20px; background-color: blue; color: white; border: none; border-radius: 5px;">Update
+                            Book</button>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingThree">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#flush-collapseLoans" aria-expanded="false" aria-controls="flush-collapseLoans">
+                        View Loans
+                    </button>
+                </h2>
+                <div id="flush-collapseLoans" class="accordion-collapse collapse" aria-labelledby="headingThree"
+                    data-bs-parent="#adminAccordion">
+                    <div class="accordion-body">
+                        <h2 style="font-size: 20px; font-weight: bold; margin-bottom: 20px;">View Loans</h2>
+            
+                        <!-- Select User by Email -->
+                        <div style="margin-bottom: 15px;">
+                            <label for="select_user_email_loans" style="display: block; font-weight: bold; margin-bottom: 5px;">Select User by Email</label>
+                            <select id="select_user_email_loans" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+                                <!-- Dynamically populated with user emails -->
+                            </select>
+                        </div>
+            
+                        <!-- Display Loans -->
+                        <div id="loan_list" style="margin-top: 20px;">
+                            <h3 style="font-size: 18px; font-weight: bold; margin-bottom: 15px;">Loans for Selected User</h3>
+            
+                            <table id="loanTable" style="width: 100%; border-collapse: collapse;">
+                                <thead>
+                                    <tr>
+                                        <th style="border: 1px solid #ddd; padding: 10px; text-align: left;">Book Name</th>
+                                        <th style="border: 1px solid #ddd; padding: 10px; text-align: left;">Loan Date</th>
+                                        <th style="border: 1px solid #ddd; padding: 10px; text-align: left;">Return Date</th>
+                                        <th style="border: 1px solid #ddd; padding: 10px; text-align: left;">Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Dynamically populated with loan details -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Add Book Section -->
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingThree">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#flush-collapseAddBook" aria-expanded="false"
+                        aria-controls="flush-collapseAddBook">
+                        Add New Book
+                    </button>
+                </h2>
+                <div id="flush-collapseAddBook" class="accordion-collapse collapse" aria-labelledby="headingThree"
+                    data-bs-parent="#adminAccordion">
+                    <div class="accordion-body">
+                        <h2 style="font-size: 20px; font-weight: bold; margin-bottom: 20px;">Add New Book</h2>
+
+                        <!-- Book Name Field -->
+                        <div style="margin-bottom: 15px;">
+                            <label for="new_book_name"
+                                style="display: block; font-weight: bold; margin-bottom: 5px;">Book Name</label>
+                            <input type="text" id="new_book_name"
+                                style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;"
+                                placeholder="Enter book name">
+                        </div>
+
+                        <!-- Author Field -->
+                        <div style="margin-bottom: 15px;">
+                            <label for="new_book_author"
+                                style="display: block; font-weight: bold; margin-bottom: 5px;">Author</label>
+                            <input type="text" id="new_book_author"
+                                style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;"
+                                placeholder="Enter author">
+                        </div>
+
+                        <!-- Book Category Field -->
+                        <div style="margin-bottom: 15px;">
+                            <label for="new_book_category"
+                                style="display: block; font-weight: bold; margin-bottom: 5px;">Category</label>
+                            <input type="text" id="new_book_category"
+                                style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;"
+                                placeholder="Enter category">
+                        </div>
+
+                        <!-- Year Published Field -->
+                        <div style="margin-bottom: 15px;">
+                            <label for="new_year_published"
+                                style="display: block; font-weight: bold; margin-bottom: 5px;">Year Published</label>
+                            <input type="number" id="new_year_published"
+                                style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;"
+                                placeholder="Enter year published">
+                        </div>
+
+                        <!-- Summary Field -->
+                        <div style="margin-bottom: 15px;">
+                            <label for="new_summary"
+                                style="display: block; font-weight: bold; margin-bottom: 5px;">Summary</label>
+                            <textarea id="new_summary"
+                                style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;"
+                                placeholder="Enter book summary"></textarea>
+                        </div>
+
+                        <!-- Type of Borrow Field -->
+                        <div style="margin-bottom: 15px;">
+                            <label for="new_type_borrow"
+                                style="display: block; font-weight: bold; margin-bottom: 5px;">Type of Borrow</label>
+                            <select id="new_type_borrow"
+                                style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+                                <option value="3">Short Term</option>
+                                <option value="2">medium-term</option>
+                                <option value="1">Long Term</option>
+                            </select>
+                        </div>
+
+                        <!-- Image URL Field -->
+                        <div style="margin-bottom: 15px;">
+                            <label for="new_img" style="display: block; font-weight: bold; margin-bottom: 5px;">Image
+                                URL</label>
+                            <input type="text" id="new_img"
+                                style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;"
+                                placeholder="Enter image URL">
+                        </div>
+                        <button type="button" onclick="addBook()"
+                            style="padding: 10px 20px; background-color: green; color: white; border: none; border-radius: 5px;">Add
+                            Book</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    </div>
+    </div>
+
+
+
+
+
+    <script src="js/admin.js"> </script>
+
+</body>
+
+</html>

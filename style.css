@@ -1,0 +1,223 @@
+/* Customizing the Navbar */
+.navbar-brand img {
+    height: auto;
+    max-width: 100%;
+}
+
+.nav-link {
+    color: #fff !important;
+}
+
+.nav-link:hover {
+    color: #d3d3d3 !important;
+}
+
+.btn-primary {
+    background-color: #0066cc;
+    border: none;
+}
+
+.btn-primary:hover {
+    background-color: #00509e;
+}
+
+/* Book Section */
+.book-section h2 {
+    font-size: 2.5rem;
+    margin-bottom: 30px;
+}
+
+.card img {
+    height: 300px;
+    object-fit: cover;
+}
+
+.card-body h5 {
+    font-size: 1.2rem;
+    margin: 10px 0;
+}
+
+.card-body p {
+    color: #555;
+    background-color: rgb(235, 203, 162);
+}
+/* 
+ */
+      /* Page Background Color */
+      body {
+        background-color: rgb(235, 203, 162);
+    }
+
+    /* Centered Navbar with Padding and Increased Width */
+    .navbar-custom {
+        background-color: rgb(235, 203, 162);
+        /* Same as body background */
+        padding: 20px;
+        max-width: 1100px;
+        /* Increased width for more space */
+        margin: 0 auto;
+        text-align: center;
+    }
+
+    .navbar-custom .navbar-nav {
+        margin: 0 auto;
+        /* Center the navbar links */
+    }
+
+    .navbar-brand img {
+        height: auto;
+        max-width: 100%;
+    }
+
+    .nav-link {
+        color: #000 !important;
+    }
+
+    .nav-link:hover {
+        color: #d3d3d3 !important;
+    }
+
+    .btn-primary {
+        background-color: #0066cc;
+        border: none;
+    }
+
+    .btn-primary:hover {
+        background-color: #00509e;
+    }
+
+
+    .content-container {
+        border: 2px solid #ddd;
+        border-radius: 10px;
+        background-color: #fff;
+        padding: 0 ;
+        max-width: 1100px;
+        margin: 50px auto;
+    }
+
+    .content-container h2 {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .content-container .child-element {
+        width: 100%; /* Child element takes full width of its parent */
+    }
+
+
+    .form-select {
+        width: auto;
+        margin-right: 10px;
+    }
+
+
+    .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .search-form {
+        display: flex;
+        align-items: center;
+        margin-right: 20px;
+    }
+
+    .navbar-collapse {
+        flex-grow: 1;
+        justify-content: flex-start;
+    }
+
+
+    .navbar-nav.mx-auto {
+        margin-left: 30px;
+    }
+
+
+    .navbar-nav.ms-3 {
+        margin-left: -40px;
+    }
+
+
+    .form-control {
+        width: 250px;
+    }
+
+
+    .menu-icon {
+        font-size: 1.5rem;
+        cursor: pointer;
+        color: #000;
+        margin-left: 20px;
+    }
+    /* 
+     */
+     .carousel-inner {
+        display: flex;
+        justify-content: flex-start;
+        gap: 15px;
+        overflow-x: auto;
+        scroll-behavior: smooth;
+        padding: 15px;
+    }
+
+    .carousel-inner::-webkit-scrollbar {
+        display: none; /* Hide scrollbars */
+    }
+
+    /* Ensure the cards remain inline */
+    .card {
+        min-width: 250px;
+        flex: 0 0 auto;
+        text-align: center; /* Center text inside the card */
+    }
+
+    .card img {
+        height: 150px;
+        object-fit: cover;
+    }
+
+    /* Adjusted width for the button */
+    .card .btn {
+        display: block;
+        margin: 0 auto; /* Center the button horizontally */
+        width: 80px; /* Reduced width of the button */
+    }
+
+    /* Hide the buttons while keeping them usable */
+    .carousel-control-prev,
+    .carousel-control-next {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background-color: rgba(0, 0, 0, 0.5);
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .carousel-control-prev {
+        left: 10px;
+    }
+
+    .carousel-control-next {
+        right: 10px;
+    }
+
+    .carousel-control-prev-icon,
+    .carousel-control-next-icon {
+        width: 20px;
+        height: 20px;
+    }
+
+    /* Container to ensure the buttons are within bounds */
+    .carousel {
+        position: relative;
+        max-width: 100%;
+    }
+    /* 
+     */
