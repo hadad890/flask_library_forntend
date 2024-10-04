@@ -19,5 +19,3 @@ This is the frontend for the Library Web Application that allows users to search
   - **Toastify**: For displaying toast notifications to the users.
 - **JavaScript**: Custom scripts for handling user interactions, form submissions, and dynamic content rendering.
 
-## Project Structure
-
